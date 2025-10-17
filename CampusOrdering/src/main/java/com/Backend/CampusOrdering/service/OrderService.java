@@ -16,7 +16,8 @@ public class OrderService {
         this.orderInterface = orderInterface;
     }
 
-    public String placeOrder(){
-        return "";
+    public String placeOrder(String studentNum, String message){
+        System.out.println(studentNum + " " + message);
+        return "OK";
     }
 }

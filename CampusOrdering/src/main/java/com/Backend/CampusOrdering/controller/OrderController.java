@@ -21,7 +21,7 @@ public class OrderController {
     @PostMapping("/placeOrder")
     public String placeOrder(@RequestParam String studentNum, @RequestParam String orderMessage)
     {
-        return orderService.placeOrder();
+        return orderService.placeOrder(studentNum, orderMessage);
     }
 
 }

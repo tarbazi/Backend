@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 
 @Entity
-public class Order {
+public class Orders {
     @Id
     @GeneratedValue
     private int Id;
@@ -13,11 +13,10 @@ public class Order {
     private String ItemName;
     private int Quantity;
 
-    public Order(String studentNum, String itemName, int quantity){
+    public Orders(String studentNum, String itemName, int quantity){
         StudentNum = studentNum;
         ItemName = itemName;
-        Quantity = quantity;
-        
+        Quantity = quantity;        
     }
 
     public void setStudentNum(String studentNum){
@@ -43,5 +42,5 @@ public class Order {
     public int getQuantity(){
         return Quantity;
     }
-    
+
 }
