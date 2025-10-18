@@ -8,39 +8,39 @@ import jakarta.persistence.GeneratedValue;
 public class Orders {
     @Id
     @GeneratedValue
-    private int Id;
-    private String StudentNum;
-    private String ItemName;
-    private int Quantity;
+    private int id;
+    private String student_num;
+    private String item_name;
+    private int quantity;
 
-    public Orders(String studentNum, String itemName, int quantity){
-        StudentNum = studentNum;
-        ItemName = itemName;
-        Quantity = quantity;        
+    public Orders(String student_num, String item_name, int quantity){
+        this.student_num = student_num;
+        this.item_name = item_name;
+        this.quantity = quantity;        
     }
 
-    public void setStudentNum(String studentNum){
-        StudentNum = studentNum;    
+    public void setStudentNum(String student_num){
+        this.student_num = student_num;    
     }
 
-    public void setItemName(String itemName){
-        ItemName = itemName;
+    public void setItemName(String item_name){
+        this.item_name = item_name;
     }
 
     public void setQuantity(int quantity){
-        Quantity = quantity;
+        this.quantity = quantity;
     }
 
     public String getStudentNum(){
-        return StudentNum;
+        return student_num;
     }
 
     public String getItemName(){
-        return ItemName;
+        return item_name;
     }
 
     public int getQuantity(){
-        return Quantity;
+        return quantity;
     }
 
 }
