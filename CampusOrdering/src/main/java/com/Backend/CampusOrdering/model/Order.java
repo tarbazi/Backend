@@ -1,11 +1,14 @@
 package com.Backend.CampusOrdering.model;
 
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 
 @Entity
-public class Orders {
+@Table(name = "`Order`")
+public class Order {
+
     @Id
     @GeneratedValue
     private int id;
@@ -13,10 +16,10 @@ public class Orders {
     private String item_name;
     private int quantity;
 
-    public Orders(String student_num, String item_name, int quantity){
+    public Order(String student_num, String item_name, int quantity){
         this.student_num = student_num;
         this.item_name = item_name;
-        this.quantity = quantity;        
+        this.quantity = quantity;
     }
 
     public void setStudentNum(String student_num){

@@ -1,7 +1,7 @@
 package com.Backend.CampusOrdering.service;
 
 import com.Backend.CampusOrdering.repository.OrderInterface;
-import com.Backend.CampusOrdering.model.Orders;
+import com.Backend.CampusOrdering.model.Order;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,6 @@ import org.json.JSONArray;
 @Service
 public class OrderService {
 
-    @Autowired
     private OrderInterface orderInterface;
 
     @Autowired
@@ -23,7 +22,7 @@ public class OrderService {
         this.orderInterface = orderInterface;
     }
 
-    public String placeOrder(String studentNum, String message){
+    public JSONObject placeOrder(String studentNum, String message){
         
         Client myClient = new Client();
 
@@ -33,7 +32,11 @@ public class OrderService {
 
         if (myResponse != null){
 
-            String strResponse = myResponse.text().substring(8, myResponse.text().length() - 3);
+            String strResponse = myResponse.text().trim();
+            if (strResponse.startsWith("```json")) {
+                strResponse = strResponse.replaceAll("```json", "").replaceAll("```", "").trim();
+            }
+
             System.out.println(strResponse);
             JSONObject myJsonObject = new JSONObject(strResponse);
             System.out.println(myJsonObject);
@@ -45,14 +48,23 @@ public class OrderService {
 
                 tempObj = myJsonArr.getJSONObject(i);
 
-                orderInterface.save(new Orders(studentNum, tempObj.getString("item"), tempObj.getInt("quantity")));
+                orderInterface.save(new Order(studentNum, tempObj.getString("item"), tempObj.getInt("quantity")));
 
             }
 
         }
 
+        System.out.println("Here");
+        
         myClient.close();
 
-        return "OK";
+        JSONObject myJSON = new JSONObject();
+        String key  = "response";
+        String val = "Ack";
+        myJSON.put(key, val);
+
+        System.out.println(myJSON);
+
+        return myJSON;
     }
 }
