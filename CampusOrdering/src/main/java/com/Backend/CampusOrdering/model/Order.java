@@ -12,22 +12,26 @@ public class Order {
     @Id
     @GeneratedValue
     private int id;
-    private String student_num;
-    private String item_name;
+    private String studentnum;
+    private String itemname;
     private int quantity;
 
-    public Order(String student_num, String item_name, int quantity){
-        this.student_num = student_num;
-        this.item_name = item_name;
+    public Order(){
+        
+    }
+
+    public Order(String studentnum, String itemname, int quantity){
+        this.studentnum = studentnum;
+        this.itemname = itemname;
         this.quantity = quantity;
     }
 
-    public void setStudentNum(String student_num){
-        this.student_num = student_num;    
+    public void setStudentNum(String studentnum){
+        this.studentnum = studentnum;    
     }
 
-    public void setItemName(String item_name){
-        this.item_name = item_name;
+    public void setItemName(String itemname){
+        this.itemname = itemname;
     }
 
     public void setQuantity(int quantity){
@@ -35,11 +39,11 @@ public class Order {
     }
 
     public String getStudentNum(){
-        return student_num;
+        return studentnum;
     }
 
     public String getItemName(){
-        return item_name;
+        return itemname;
     }
 
     public int getQuantity(){

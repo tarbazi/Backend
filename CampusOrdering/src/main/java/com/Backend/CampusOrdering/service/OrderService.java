@@ -12,6 +12,9 @@ import com.google.genai.types.GenerateContentResponse;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class OrderService {
 
@@ -22,49 +25,53 @@ public class OrderService {
         this.orderInterface = orderInterface;
     }
 
-    public JSONObject placeOrder(String studentNum, String message){
+    public Map<String, Object> placeOrder(String studentnum, String message){
         
         Client myClient = new Client();
 
-        String myMessage = "Please give a resolution in the form an JSON formatted ({Result: [{item:itemName quantity:quantityValue}]} itemName is a single String value for the item, quantityValue is an integer) string for the following text:" + message;
+        Map<String, Object> myJSONResponse = new HashMap<>();
+        String key  = "response";
+        String ackVal = "Ack";
+        String nakVal = "Nak";
+ 
+        String myMessage = "Please give a resolution in the form a JSON formatted ({Result: [{item:itemName quantity:quantityValue}]} itemName is a single String value for the item, quantityValue is an integer) string for the following text:" + message;
+        GenerateContentResponse myResponse;
 
-        GenerateContentResponse myResponse = myClient.models.generateContent("gemini-2.5-flash", myMessage, null);
+        try{
 
-        if (myResponse != null){
+            myResponse = myClient.models.generateContent("gemini-2.5-flash", myMessage, null);
+            myClient.close();
 
             String strResponse = myResponse.text().trim();
             if (strResponse.startsWith("```json")) {
                 strResponse = strResponse.replaceAll("```json", "").replaceAll("```", "").trim();
             }
 
-            System.out.println(strResponse);
             JSONObject myJsonObject = new JSONObject(strResponse);
-            System.out.println(myJsonObject);
             JSONArray myJsonArr = myJsonObject.getJSONArray("Result");
-            
             JSONObject tempObj;
             
             for (int i = 0; i < myJsonArr.length(); i++){
-
                 tempObj = myJsonArr.getJSONObject(i);
-
-                orderInterface.save(new Order(studentNum, tempObj.getString("item"), tempObj.getInt("quantity")));
-
+                orderInterface.save(new Order(studentnum, tempObj.getString("item"), tempObj.getInt("quantity")));
             }
 
         }
 
-        System.out.println("Here");
-        
-        myClient.close();
+        catch(Exception e){
 
-        JSONObject myJSON = new JSONObject();
-        String key  = "response";
-        String val = "Ack";
-        myJSON.put(key, val);
+            myClient.close();
+            myJSONResponse.put(key, nakVal);
 
-        System.out.println(myJSON);
+            System.out.println(e);  // To replace with log-file write;
 
-        return myJSON;
+            return myJSONResponse;
+
+        }
+
+        myJSONResponse.put(key, ackVal);
+
+        return myJSONResponse;
+
     }
 }

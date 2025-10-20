@@ -3,11 +3,13 @@ package com.Backend.CampusOrdering.controller;
 import com.Backend.CampusOrdering.service.OrderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.json.JSONObject;
+import java.util.Map;
 
 @RestController
 public class OrderController {
@@ -19,10 +21,11 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/placeOrder")
-    public JSONObject placeOrder(@RequestParam String studentNum, @RequestParam String orderMessage)
+    public Map<String, Object> placeOrder(@RequestParam String studentnum, @RequestParam String ordermessage)
     {
-        return orderService.placeOrder(studentNum, orderMessage);
+        return orderService.placeOrder(studentnum, ordermessage);
     }
 
 }
