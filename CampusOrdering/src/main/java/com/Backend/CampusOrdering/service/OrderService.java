@@ -59,10 +59,11 @@ public class OrderService {
             catch(Exception e){
 
             }
-            
-            for (int i = 0; i < myJsonArr.length(); i++){
-                tempObj = myJsonArr.getJSONObject(i);
-                orderInterface.save(new Order(studentnum, tempObj.getString("item"), tempObj.getInt("quantity"), ordernum));
+            synchronized(this){
+                for (int i = 0; i < myJsonArr.length(); i++){
+                    tempObj = myJsonArr.getJSONObject(i);
+                    orderInterface.save(new Order(studentnum, tempObj.getString("item"), tempObj.getInt("quantity"), ordernum));
+                }
             }
 
         }
