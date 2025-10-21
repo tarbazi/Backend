@@ -15,15 +15,17 @@ public class Order {
     private String studentnum;
     private String itemname;
     private int quantity;
+    private int ordernum;
 
     public Order(){
         
     }
 
-    public Order(String studentnum, String itemname, int quantity){
+    public Order(String studentnum, String itemname, int quantity, int ordernum){
         this.studentnum = studentnum;
         this.itemname = itemname;
         this.quantity = quantity;
+        this.ordernum = ordernum;
     }
 
     public void setStudentNum(String studentnum){
@@ -38,6 +40,10 @@ public class Order {
         this.quantity = quantity;
     }
 
+    public void setOrderNum(int ordernum){
+        this.ordernum = ordernum;
+    }
+
     public String getStudentNum(){
         return studentnum;
     }
@@ -48,6 +54,10 @@ public class Order {
 
     public int getQuantity(){
         return quantity;
+    }
+
+    public int getOrderNum(){
+        return ordernum;
     }
 
 }

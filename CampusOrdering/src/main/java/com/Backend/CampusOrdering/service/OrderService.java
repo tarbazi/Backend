@@ -50,23 +50,29 @@ public class OrderService {
             JSONObject myJsonObject = new JSONObject(strResponse);
             JSONArray myJsonArr = myJsonObject.getJSONArray("Result");
             JSONObject tempObj;
+
+            int ordernum = 0;
+
+            try{
+                ordernum = orderInterface.getMaxId();
+            }
+            catch(Exception e){
+
+            }
             
             for (int i = 0; i < myJsonArr.length(); i++){
                 tempObj = myJsonArr.getJSONObject(i);
-                orderInterface.save(new Order(studentnum, tempObj.getString("item"), tempObj.getInt("quantity")));
+                orderInterface.save(new Order(studentnum, tempObj.getString("item"), tempObj.getInt("quantity"), ordernum));
             }
 
         }
 
         catch(Exception e){
-
             myClient.close();
             myJSONResponse.put(key, nakVal);
-
             System.out.println(e);  // To replace with log-file write;
 
             return myJSONResponse;
-
         }
 
         myJSONResponse.put(key, ackVal);

@@ -30,15 +30,17 @@ public class CredentialService {
         
         try{
 
-            boolean outcome = credentialInterface.existsByStudentnum(studentnum);
+            synchronized(this){
+                boolean outcome = credentialInterface.existsByStudentnum(studentnum);
 
-            if (outcome == false){
-                credentialInterface.save(new Credential(studentnum, password));
-                myResponse.put(response, ackVal);
-            }
+                if (outcome == false){
+                    credentialInterface.save(new Credential(studentnum, password));
+                    myResponse.put(response, ackVal);
+                }
 
-            else{
-                myResponse.put(response, nakVal_);
+                else{
+                    myResponse.put(response, nakVal_);
+                }
             }
 
             return myResponse;
@@ -48,7 +50,7 @@ public class CredentialService {
         catch(Exception e){
             System.out.println(e);  // To replace with log-file write;
         }
-
+        
         myResponse.put(response, nakVal);
 
         return myResponse;
@@ -70,19 +72,14 @@ public class CredentialService {
             System.out.println(outcome);
 
             if (outcome == true){
-                System.out.println("Started");
                 Credential tempCred = credentialInterface.getByStudentnum(studentnum);
-                System.out.println("Finished");
-                System.out.println(tempCred.getPassword());
                 
                 if (password.equals(tempCred.getPassword())){
                     myResponse.put(response, ackVal);
 
                     return myResponse;
                 }
-
                 myResponse.put(response, nakVal_);
-
             }
 
         }
