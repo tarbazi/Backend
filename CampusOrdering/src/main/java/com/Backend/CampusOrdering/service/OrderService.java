@@ -51,15 +51,15 @@ public class OrderService {
             JSONArray myJsonArr = myJsonObject.getJSONArray("Result");
             JSONObject tempObj;
 
-            int ordernum = 0;
-
-            try{
-                ordernum = orderInterface.getMaxId();
-            }
-            catch(Exception e){
-
-            }
             synchronized(this){
+                int ordernum = 0;
+
+                try{
+                    ordernum = orderInterface.getMaxId();
+                }
+                catch(Exception e){
+                }
+                
                 for (int i = 0; i < myJsonArr.length(); i++){
                     tempObj = myJsonArr.getJSONObject(i);
                     orderInterface.save(new Order(studentnum, tempObj.getString("item"), tempObj.getInt("quantity"), ordernum));
